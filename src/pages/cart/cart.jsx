@@ -1,9 +1,11 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import { PRODUCTS } from '../../products'
 import { ShopContext } from '../../context/shop-context'
 import { CartItem } from './cartitem'
 import "./cart.css"
 import { useNavigate } from 'react-router-dom'
+import PopUp from './popUp'
+
 
 export const Cart = () => {
 
@@ -11,6 +13,15 @@ export const Cart = () => {
 
   const navigate = useNavigate()
   const totalAmount = getTotalCartAmount();
+
+  const [buttonPopUp, setButtonPopUp] = useState(false);
+
+  const fakeBuyItems = ()=> {
+    checkout(2,2);
+    setButtonPopUp(true);
+    console.log(buttonPopUp)
+
+  }
   return (
     <div className='cart'>
       <div className="cart__title">
@@ -30,7 +41,8 @@ export const Cart = () => {
         <div className="checkout">
         <p>Subtotal: ${totalAmount}</p>
         <button onClick = {()=> navigate("/palomos-shop")} className='btn'>Continue Shopping</button>
-        <button className='btn' onClick = {() => (checkout(2, 2))}>Checkout</button>
+        <button className='btn' onClick = {() => fakeBuyItems()}>Checkout</button>
+        
       </div> 
       ) : ( 
       <div className="checkout">
@@ -38,7 +50,11 @@ export const Cart = () => {
         <button onClick = {()=> navigate("/palomos-shop")} className='btn'>Continue Shopping</button>
         </div>
       )}
-        
+        <PopUp trigger = {buttonPopUp} setTrigger = {setButtonPopUp}>
+          <h1>Successfully purchased items!</h1>
+          <h2>Thank you for choosing Palomo's Shop!</h2>
+        </PopUp>
     </div>
-  )
+    
+  ) 
 }
