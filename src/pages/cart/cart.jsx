@@ -3,12 +3,13 @@ import { PRODUCTS } from '../../products'
 import { ShopContext } from '../../context/shop-context'
 import { CartItem } from './cartitem'
 import "./cart.css"
+import { useNavigate } from 'react-router-dom'
 
 export const Cart = () => {
 
   const { cartItems, getTotalCartAmount, checkout } = useContext(ShopContext);
 
-
+  const navigate = useNavigate()
   const totalAmount = getTotalCartAmount();
   return (
     <div className='cart'>
@@ -28,13 +29,13 @@ export const Cart = () => {
       ( 
         <div className="checkout">
         <p>Subtotal: ${totalAmount}</p>
-        <a href = "https://pedroplm.github.io/palomos-shop/"><button className='btn'>Continue Shopping</button></a>
+        <button onClick = {()=> navigate("/palomos-shop")} className='btn'>Continue Shopping</button>
         <button className='btn' onClick = {() => (checkout(2, 2))}>Checkout</button>
       </div> 
       ) : ( 
       <div className="checkout">
         <h2>Your cart is empty</h2>
-        <a href = "https://pedroplm.github.io/palomos-shop/"><button className='btn'>Continue Shopping</button></a>
+        <button onClick = {()=> navigate("/palomos-shop")} className='btn'>Continue Shopping</button>
         </div>
       )}
         
